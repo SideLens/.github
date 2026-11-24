@@ -1,0 +1,77 @@
+name: Bug 报告
+description: 报告一个可复现的缺陷
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。SideLens 是延迟敏感的系统，**没有日志的 bug 基本无法定位**，
+        请尽量把接收端统计行贴上来。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 实际行为与预期行为的差异
+      placeholder: 期望看到画面，实际是黑屏
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请写清完整的命令行，包括所有参数和环境变量
+      placeholder: |
+        1. 接收端：SIDELENS_UI=1 SIDELENS_RENDER=gpu .\target\release\sidelensd.exe --udp 27200
+        2. 发送端：.\target\release\sidelenssend.exe --udp 127.0.0.1:27200 60 8192 8 --screen dxgi --h264
+        3. 看到黑屏
+    validations:
+      required: true
+
+  - type: textarea
+    id: stats
+    attributes:
+      label: 接收端统计输出
+      description: |
+        接收端每 2 秒打印一行统计。这一行是排查的主要依据，
+        请完整粘贴（含 frames / playable_ms / nack_sent / fec_* 等字段）。
+      render: text
+      placeholder: |
+        UDP 统计 frames=1024 net_ms="0.13/65.44/81.84" playable_ms="15.65/24.43"
+          jitter=1 target_ms="10.0" nack_sent=316 healed=152 dropped=229
+          loss="0.079" fec_reds=18 fec_recovered=11 fec_redundant=11
+          video_decoded=888 render_frames=888 render_failed=0 render_mode="gpu-window"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: param-pairing
+    attributes:
+      label: 参数配对检查
+      description: |
+        这是最常见的误报来源 —— 配错会得到「看起来像 bug」的静默失败。
+      options:
+        - 已确认配对正确（发送端 --h264 对应接收端 SIDELENS_H264_DECODE=1）
+        - 已确认配对正确（--audio --opus 对应 SIDELENS_OPUS=1）
+        - 已确认配对正确（--psk 两端一致）
+        - 不确定，需要帮助排查
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 版本 / commit
+      placeholder: f914462
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Windows 版本
+      placeholder: Windows 11 23H2 (22631)
+    validations:
+      required: true

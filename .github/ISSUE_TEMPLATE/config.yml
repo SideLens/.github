@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 文档索引
+    url: https://github.com/SideLens/sidelens/blob/master/docs/README.md
+    about: 31 篇设计文档，按「想解决什么问题」组织
+  - name: 已知限制
+    url: https://github.com/SideLens/sidelens/blob/master/docs/blockers.md
+    about: 什么做不了、为什么 —— 提 issue 前建议先看
+  - name: 延迟优化记录
+    url: https://github.com/SideLens/sidelens/blob/master/docs/latency-budget.md
+    about: 每一微秒是怎么省下来的
